@@ -31,7 +31,7 @@ kernelspec:
 
 线性代数是经济学家最值得投入学习的应用数学分支之一。
 
-例如，经济学和金融学中的许多应用问题都需要求解线性方程组，比如
+经济学和金融学中的许多应用问题都需要求解线性方程组，比如
 
 $$
 \begin{aligned}
@@ -53,9 +53,9 @@ y_1 = a_{11} x_1 + a_{12} x_2 + \cdots + a_{1k} x_k \\
 \end{aligned}
 ```
 
-这里的目标是在已知 $a_{11}, \ldots, a_{nk}$ 和 $y_1, \ldots, y_n$ 的情况下，求解"未知数" $x_1, \ldots, x_k$。
+这里的目标是在给定 $a_{11}, \ldots, a_{nk}$ 和 $y_1, \ldots, y_n$ 的情况下，求解"未知数" $x_1, \ldots, x_k$。
 
-在考虑这类问题时，我们首先必须考虑以下至少一些问题：
+在考虑这类问题时，我们首先必须考虑以下问题：
 
 * 解是否真的存在？
 * 是否实际上存在多个解，如果是，我们应该如何解释它们？
@@ -66,7 +66,7 @@ y_1 = a_{11} x_1 + a_{12} x_2 + \cdots + a_{1k} x_k \\
 
 在本讲中，我们将介绍线性和矩阵代数的基础知识，包括理论和计算两个方面。
 
-我们承认这与[这篇讲座](https://python-programming.quantecon.org/numpy.html)有一些重叠，那里首次解释了NumPy数组的操作。
+本篇讲座与[这篇讲座](https://python-programming.quantecon.org/numpy.html)存在一些重叠，那里首次解释了NumPy数组的操作。
 
 请注意，这节课比大多数课程更偏重理论，包含了我们在后续应用中将会用到的背景知识。
 
@@ -95,11 +95,11 @@ from scipy.linalg import inv, solve, det, eig
 
 我们可以根据需要将这些序列横向或纵向书写。
 
-（稍后，当我们需要执行某些矩阵运算时，区分这两种写法将变得必要）
+（稍后当我们需要执行某些矩阵运算时，会需要区分这两种写法）
 
 所有$n$维向量的集合用$\mathbb R^n$表示。
 
-例如，$\mathbb R^2$是平面，而$\mathbb R^2$中的向量就是平面上的一个点。
+例如，$\mathbb R^2$是平面，而$\mathbb R^2$中的一个向量就是平面上的一个点。
 
 传统上，向量在视觉上被表示为从原点指向某点的箭头。
 
@@ -107,7 +107,7 @@ from scipy.linalg import inv, solve, det, eig
 
 ```{code-cell} ipython
 fig, ax = plt.subplots(figsize=(10, 8))
-# Set the axes through the origin
+# 设定通过原点的坐标轴
 for spine in ['left', 'bottom']:
     ax.spines[spine].set_position('zero')
 for spine in ['right', 'top']:
@@ -176,7 +176,7 @@ $$
 tags: [output_scroll]
 ---
 fig, ax = plt.subplots(figsize=(10, 8))
-# Set the axes through the origin
+# 设定通过原点的坐标轴
 for spine in ['left', 'bottom']:
     ax.spines[spine].set_position('zero')
 for spine in ['right', 'top']:
@@ -228,7 +228,7 @@ x + y
 ```{index} single: Vectors; Norm
 ```
 
-向量 $x,y \in \mathbb R ^n$ 的*内积*定义为
+向量 $x,y \in \mathbb R ^n$ 的*内积* 定义为
 
 $$
 x' y := \sum_{i=1}^n x_i y_i
@@ -236,7 +236,7 @@ $$
 
 如果两个向量的内积为零，则称这两个向量*正交*。
 
-向量 $x$ 的*范数*表示其"长度"（即其与零向量的距离），定义为
+向量 $x$ 的*范数* 表示其"长度"（即其与零向量的距离），定义为
 
 $$
 \| x \| := \sqrt{x' x} := \left( \sum_{i=1}^n x_i^2 \right)^{1/2}
@@ -251,14 +251,14 @@ np.sum(x * y)          # x和y的内积
 ```
 
 ```{code-cell} ipython3
-np.sqrt(np.sum(x**2))  # x的范数，第一种方法
+np.sqrt(np.sum(x**2))  # 第一种计算x的范数的方法
 ```
 
 ```{code-cell} ipython3
-np.linalg.norm(x)      # x的范数，第二次计算
+np.linalg.norm(x)      # 第二种计算x的范数的方法
 ```
 
-### 张成空间
+### 生成空间
 
 ```{index} single: Vectors; Span
 ```
@@ -276,11 +276,11 @@ $$
 
 在这种情况下，值$\beta_1, \ldots, \beta_k$被称为线性组合的*系数*。
 
-$A$的所有线性组合构成的集合被称为$A$的*张成空间*。
+$A$的所有线性组合构成的集合被称为$A$的*生成空间*。
 
-下图显示了$\mathbb R ^3$中$A = \{a_1, a_2\}$的张成空间。
+下图显示了$\mathbb R ^3$中$A = \{a_1, a_2\}$的生成空间。
 
-张成空间是一个通过这两个点和原点的二维平面。
+生成空间是一个通过这两个点和原点的二维平面。
 
 (la_3dvec)=
 ```{code-cell} ipython3
@@ -306,18 +306,18 @@ ax.plot(z, x, y, 'k-', lw=2, alpha=0.5)
 ax.plot(y, z, x, 'k-', lw=2, alpha=0.5)
 
 
-# Fixed linear function, to generate a plane
+# 设定线性方程来生成一个平面
 def f(x, y):
     return α * x + β * y
 
-# Vector locations, by coordinate
+# 按坐标表示的向量位置
 x_coords = np.array((3, 3))
 y_coords = np.array((4, -4))
 z = f(x_coords, y_coords)
 for i in (0, 1):
     ax.text(x_coords[i], y_coords[i], z[i], f'$a_{i+1}$', fontsize=14)
 
-# Lines to vectors
+# 将线条表示为向量
 for i in (0, 1):
     x = (0, x_coords[i])
     y = (0, y_coords[i])
@@ -325,7 +325,7 @@ for i in (0, 1):
     ax.plot(x, y, z, 'b-', lw=1.5, alpha=0.6)
 
 
-# Draw the plane
+# 画出平面
 grid_size = 20
 xr2 = np.linspace(x_min, x_max, grid_size)
 yr2 = np.linspace(y_min, y_max, grid_size)
@@ -338,7 +338,7 @@ plt.show()
 
 #### 示例
 
-如果 $A$ 只包含一个向量 $a_1 \in \mathbb R ^2$，那么它的张成只是 $a_1$ 的标量倍数，即通过 $a_1$ 和原点的唯一直线。
+如果 $A$ 只包含一个向量 $a_1 \in \mathbb R ^2$，那么它的生成空间只是 $a_1$ 的标量倍数，即通过 $a_1$ 和原点的唯一直线。
 
 如果 $A = \{e_1, e_2, e_3\}$ 由 $\mathbb R ^3$ 的*标准基向量*组成，即
 
@@ -365,7 +365,7 @@ e_3 :=
 \end{bmatrix}
 $$
 
-那么 $A$ 的张成就是整个 $\mathbb R ^3$，因为对于任意的 $x = (x_1, x_2, x_3) \in \mathbb R ^3$，我们可以写成
+那么 $A$ 的生成空间就是整个 $\mathbb R ^3$，因为对于任意的 $x = (x_1, x_2, x_3) \in \mathbb R ^3$，我们可以写成
 
 $$
 x = x_1 e_1 + x_2 e_2 + x_3 e_3
@@ -375,31 +375,31 @@ $$
 
 如果 $y = (y_1, y_2, y_3)$ 是这些向量的任意线性组合，那么 $y_3 = 0$（请验证）。
 
-因此 $A_0$ 不能张成整个 $\mathbb R ^3$。
+因此 $A_0$ 不能生成整个 $\mathbb R ^3$。
 
 (la_li)=
-### 线性无关
+### 线性独立
 
 ```{index} single: Vectors; Linear Independence
 ```
 
-正如我们将看到的，找到具有相对较大张成空间的向量族通常是很有必要的，这样许多向量就可以通过对少数向量进行线性运算来描述。
+正如我们将看到的，找到具有相对较大生成空间的向量族通常是很有必要的，这样许多向量就可以通过对少数向量进行线性运算来描述。
 
-对于一组向量要具有较大的张成空间，我们需要的条件就是所谓的线性无关。
+对于一组具有较大生成空间的向量，我们需要的条件是所谓的线性独立。
 
 具体来说，在$\mathbb R ^n$中的一组向量$A := \{a_1, \ldots, a_k\}$被称为
 
-* *线性相关的*，如果$A$的某个真子集与$A$具有相同的张成空间。
-* *线性无关的*，如果它不是线性相关的。
+* *线性相关的*，如果$A$的某个真子集与$A$具有相同的生成空间。
+* *线性独立的*，如果它不是线性相关的。
 
-换句话说，如果没有向量对张成空间是多余的，那么这组向量就是线性无关的，否则就是线性相关的。
+换句话说，如果没有向量对生成空间是多余的，那么这组向量就是线性独立的，否则就是线性相关的。
 
 为了说明这个概念，回想{ref}`图示<la_3dvec>`展示了$\mathbb R ^3$中向量$\{a_1, a_2\}$的张成空间是一个经过原点的平面。
 
 如果我们再取第三个向量$a_3$并形成集合$\{a_1, a_2, a_3\}$，这个集合将会是
 
 * 如果$a_3$位于该平面内，则线性相关
-* 否则线性无关
+* 否则线性独立
 
 作为这个概念的另一个说明，由于$\mathbb R ^n$可以由$n$个向量张成（参见上文关于标准基向量的讨论），在$\mathbb R ^n$中任何包含$m > n$个向量的集合必定线性相关。
 
@@ -413,7 +413,7 @@ $$
 (la_unique_reps)=
 ### 唯一表示
 
-关于线性独立向量集合的另一个优点是，其张成空间中的每个元素都可以唯一地表示为这些向量的线性组合。
+关于线性独立向量集合的另一个优点是，其生成空间中的每个元素都可以唯一地表示为这些向量的线性组合。
 
 换句话说，如果$A := \{a_1, \ldots, a_k\} \subset \mathbb R ^n$是线性独立的，且
 
@@ -421,7 +421,7 @@ $$
 y = \beta_1 a_1 + \cdots \beta_k a_k
 $$
 
-那么其他任何系数序列 $\gamma_1, \ldots, \gamma_k$ 都不会产生相同的向量 $y$。
+那么任何其他系数序列 $\gamma_1, \ldots, \gamma_k$ 都不会产生相同的向量 $y$。
 
 事实上，如果我们也有 $y = \gamma_1 a_1 + \cdots \gamma_k a_k$，
 那么
@@ -467,7 +467,7 @@ $$
 
 如果只有主对角线上的元素非零，则 $A$ 被称为*对角矩阵*。
 
-如果除了是对角矩阵外，主对角线上的每个元素都等于1，则 $A$ 被称为*单位矩阵*，记作 $I$。
+如果对角矩阵的主对角线上的每个元素都等于1，则 $A$ 被称为*单位矩阵*，记作 $I$。
 
 ### 矩阵运算
 
@@ -482,8 +482,7 @@ $$
 \gamma A =
 \gamma
 \begin{bmatrix}
-
-a_{11} &  \cdots & a_{1k} \\
+    a_{11} &  \cdots & a_{1k} \\
     \vdots & \vdots  & \vdots \\
     a_{n1} &  \cdots & a_{nk}
 \end{bmatrix} :=
@@ -517,19 +516,17 @@ $$
 
 在后一种情况下，矩阵必须具有相同的形状才能使定义有意义。
 
-我们还有一个*相乘*两个矩阵的约定。
+我们还有一个*相乘*两个矩阵的规则。
 
-矩阵乘法的规则推广了上面讨论的内积的概念。
-
-并且其设计使得乘法能够很好地配合基本线性运算。
+矩阵乘法的规则推广了上面讨论的内积的概念。其设计使得乘法能够很好地配合基本线性运算。
 
 如果$A$和$B$是两个矩阵，那么它们的乘积$A B$的第$i,j$个元素是由$A$的第$i$行与$B$的第$j$列的内积得到的。
 
-有许多教程可以帮助你理解这个运算，比如[这个](https://www.mathsisfun.com/algebra/matrix-multiplying.html)，或者[维基百科页面](https://en.wikipedia.org/wiki/Matrix_multiplication)上的讨论。
+有许多教程可以帮助你理解这个运算，比如[这个网站](https://www.mathsisfun.com/algebra/matrix-multiplying.html)，或者[百度百科页面](https://baike.baidu.com/item/%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95/5446029)上的讨论。
 
 如果$A$是$n \times k$矩阵，$B$是$j \times m$矩阵，那么要使$A$和$B$可以相乘，我们需要$k = j$，且得到的矩阵$A B$是$n \times m$的。
 
-作为可能最重要的特例，考虑将$n \times k$矩阵$A$与$k \times 1$列向量$x$相乘。
+最重要的特例是，考虑将$n \times k$矩阵$A$与$k \times 1$列向量$x$相乘。
 
 根据前面的规则，这会得到一个$n \times 1$列向量
 
@@ -541,7 +538,6 @@ A x =
     a_{11} &  \cdots & a_{1k} \\
     \vdots & \vdots  & \vdots \\
     a_{n1} &  \cdots & a_{nk}
-
 \end{bmatrix}
 \begin{bmatrix}
     x_{1}  \\
@@ -561,7 +557,7 @@ $A B$ 和 $B A$ 通常不是同一个东西。
 
 另一个重要的特殊情况是单位矩阵。
 
-你应该验证如果 $A$ 是 $n \times k$ 矩阵且 $I$ 是 $k \times k$ 单位矩阵，那么 $AI = A$。
+你可以验证如果 $A$ 是 $n \times k$ 矩阵且 $I$ 是 $k \times k$ 单位矩阵，那么 $AI = A$。
 
 如果 $I$ 是 $n \times n$ 单位矩阵，那么 $IA = A$。
 
@@ -635,7 +631,7 @@ $$
 
 你可以验证，当$b$为零向量时，函数$f(x) = A x + b$满足这个性质，而当$b$非零时则不满足。
 
-事实上，已[知](https://en.wikipedia.org/wiki/Linear_map#Matrices)$f$是线性的，当且*仅当*存在矩阵$A$使得对所有的$x$都有$f(x) = Ax$。
+事实上，[已知](https://baike.baidu.com/item/%E7%BA%BF%E6%80%A7%E5%8F%98%E6%8D%A2/5904192)$f$是线性的，当且*仅当*存在一个矩阵$A$使得对所有的$x$都有$f(x) = Ax$。
 
 ## 求解方程组
 
@@ -678,7 +674,7 @@ ya, yb = np.min(y), np.max(y)
 fig, axes = plt.subplots(2, 1, figsize=(10, 10))
 
 for ax in axes:
-    # Set the axes through the origin
+    # 设定通过原点的坐标轴
     for spine in ['left', 'bottom']:
         ax.spines[spine].set_position('zero')
     for spine in ['right', 'top']:
@@ -689,7 +685,7 @@ for ax in axes:
 
     ax.plot(x, y, 'k-', lw=2, label='$f$')
     ax.fill_between(x, ya, yb, facecolor='blue', alpha=0.05)
-    ax.vlines([0], ya, yb, lw=3, color='blue', label='range of $f$')
+    ax.vlines([0], ya, yb, lw=3, color='blue', label='$f$的范围')
     ax.text(0.04, -0.3, '$0$', fontsize=16)
 
 ax = axes[0]
@@ -711,7 +707,7 @@ ax.text(0.04, 0.91 * ybar, '$y$', fontsize=16)
 plt.show()
 ```
 
-在第一个图中，由于函数不是一一对应的，存在多个解，而
+在第一个图中，函数不是一一对应的，所以存在多个解，而
 在第二个图中，由于$y$在函数$f$的值域之外，所以没有解。
 
 我们能否对{eq}`la_se2`中的$A$施加条件来避免这些问题？
@@ -724,17 +720,17 @@ $$
 Ax = x_1 a_1 + \cdots + x_k a_k
 $$
 
-因此，$f(x) = Ax$的值域恰好是$A$的列的张成空间。
+因此，$f(x) = Ax$的值域恰好是$A$的列的生成空间。
 
 我们希望值域足够大，以包含任意的$y$。
 
-你可能记得，我们希望张成空间足够大的条件是{ref}`线性独立<la_li>`。
+你可能记得，我们希望生成空间足够大的条件是{ref}`线性独立<la_li>`。
 
 一个令人高兴的事实是，$A$的列的线性独立性也能给我们唯一性。
 
-确实，根据我们{ref}`之前的讨论 <la_unique_reps>`，如果$\{a_1, \ldots, a_k\}$是线性无关的，且$y = Ax = x_1 a_1 + \cdots + x_k a_k$，那么不存在$z \not= x$满足$y = Az$。
+确实，根据我们{ref}`之前的讨论 <la_unique_reps>`，如果$\{a_1, \ldots, a_k\}$是线性独立的，且$y = Ax = x_1 a_1 + \cdots + x_k a_k$，那么不存在$z \not= x$满足$y = Az$。
 
-### 方阵的情况
+### 方阵的例子
 
 让我们讨论更多细节，首先从$A$是$n \times n$矩阵的情况开始。
 
@@ -742,15 +738,15 @@ $$
 
 对于任意的$y \in \mathbb R ^n$，我们希望找到唯一的$x \in \mathbb R ^n$使得$y = Ax$。
 
-根据上面的观察，如果$A$的列向量是线性无关的，那么它们的张成空间，也就是函数$f(x) = Ax$的值域，就是整个$\mathbb R ^n$。
+根据上面的观察，如果$A$的列向量是线性独立的，那么它们的生成空间，也就是函数$f(x) = Ax$的值域，就是整个$\mathbb R ^n$。
 
 因此总是存在$x$使得$y = Ax$。
 
 而且，这个解是唯一的。
 
-特别地，以下陈述是等价的：
+特别地，以下陈述等价：
 
-1. $A$的列向量是线性无关的。
+1. $A$的列向量是线性独立的。
 1. 对于任意$y \in \mathbb R ^n$，方程$y = Ax$有唯一解。
 
 列向量线性独立的性质有时被表述为具有*满秩列*。
@@ -760,9 +756,9 @@ $$
 ```{index} single: Matrix; Inverse
 ```
 
-我们能给出某种形式的解吗？
+我们能给出解的某种表达式吗？
 
-如果$y$和$A$是标量且$A \not= 0$，那么解为$x = A^{-1} y$。
+如果$y$和$A$是标量且$A \not= 0$，那么方程的解为$x = A^{-1} y$。
 
 在矩阵的情况下也有类似的表达式。
 
@@ -777,7 +773,7 @@ $$
 ```{index} single: Matrix; Determinants
 ```
 
-关于方阵的另一个简短说明是，每个这样的矩阵都有一个唯一的数，称为矩阵的*行列式*——你可以在[这里](https://en.wikipedia.org/wiki/Determinant)找到它的表达式。
+关于方阵的另一个简短说明是，每个这样的矩阵都有一个唯一的数，称为矩阵的*行列式*——你可以在[这里](https://baike.baidu.com/item/%E8%A1%8C%E5%88%97%E5%BC%8F/2010180)找到它的表达式。
 
 如果矩阵$A$的行列式不为零，我们就说$A$是*非奇异的*。
 
@@ -793,13 +789,13 @@ $$
 
 对于任意的$y \in \mathbb R ^n$，我们寻找一个$x \in \mathbb R ^k$使得$y = Ax$。
 
-在这种情况下，解的存在性是极不可能的。
+在这种情况下，解的存在是极不可能的。
 
 在不失一般性的情况下，让我们着重讨论$A$的列向量线性独立的情况。
 
-由此可知，$A$的列向量张成的空间是$\mathbb R ^n$中的一个$k$维子空间。
+由此可知，$A$的列向量生成的空间是$\mathbb R ^n$中的一个$k$维子空间。
 
-这个张成空间不太"可能"包含任意的 $y \in \mathbb R ^n$。
+这个生成空间不太"可能"包含任意的 $y \in \mathbb R ^n$。
 
 要理解原因，请回顾{ref}`上图<la_3dvec>`，其中 $k=2$ 且 $n=3$。
 
@@ -827,7 +823,7 @@ $y$ 落在 $\{a_1, a_2\}$ 的张成空间中（即通过这些点的二维平面
 
 因此，$A$ 的列由 $\mathbb R ^2$ 中的3个向量组成。
 
-这组向量永远不可能线性独立，因为可以找到两个向量就能张成 $\mathbb R ^2$。
+这组向量永远不可能线性独立，因为可以找到两个向量就能生成 $\mathbb R ^2$。
 
 （例如，使用标准基向量）
 
@@ -872,7 +868,7 @@ A @ x          # 应该等于y
 ```
 
 ```{code-cell} ipython3
-solve(A, y)  # 产生相同的解
+solve(A, y)  # 会产生上述方法相同的解
 ```
 
 观察我们如何通过`inv(A) @ y`或使用`solve(A, y)`来求解$x = A^{-1} y$。
@@ -900,11 +896,11 @@ $$
 
 则我们称$\lambda$是$A$的*特征值*，而$v$是*特征向量*。
 
-因此，$A$的特征向量是指当应用映射$f(x) = Ax$时，$v$仅仅被缩放的向量。
+因此，$A$的特征向量是指当应用映射$f(x) = Ax$时，仅仅有$v$向量被放缩。
 
 下图显示了两个特征向量（蓝色箭头）及其在$A$下的像（红色箭头）。
 
-正如预期的那样，每个向量 $v$ 的像 $Av$ 只是原向量的缩放版本
+正如预期的那样，每个向量 $v$ 的成像 $Av$ 只是原向量的缩放版本
 
 ```{code-cell} ipython3
 ---
@@ -989,7 +985,7 @@ evals
 evecs
 ```
 
-注意 `evecs` 的*列*是特征向量。
+注意 `evecs` 的*列* 是特征向量。
 
 由于特征向量的任意标量倍数都是具有相同特征值的特征向量（可以验证），eig 程序会将每个特征向量的长度归一化为1。
 
@@ -1001,7 +997,7 @@ $$
 A v = \lambda B v
 $$
 
-这可以通过 SciPy 中的 `scipy.linalg.eig(A, B)` 求解。
+可以通过 SciPy 中的 `scipy.linalg.eig(A, B)` 求解。
 
 当然，如果 $B$ 是方阵且可逆，我们可以将广义特征值问题转化为普通特征值问题 $B^{-1} A v = \lambda v$，但情况并非总是如此。
 
@@ -1084,8 +1080,8 @@ $$
 
 我们称 $A$ 是
 
-1. 如果对于每个 $x \in \mathbb R ^n \setminus \{0\}$，都有 $x' A x > 0$，则称矩阵为*正定的*
-1. 如果对于每个 $x \in \mathbb R ^n$，都有 $x' A x \geq 0$，则称矩阵为*半正定的*或*非负定的*
+1. *正定的*，如果对于每个 $x \in \mathbb R ^n \setminus \{0\}$，都有 $x' A x > 0$
+1. *半正定的*或*非负定的*，如果对于每个 $x \in \mathbb R ^n$，都有 $x' A x \geq 0$
 
 负定和半负定矩阵有类似的定义。
 
@@ -1308,11 +1304,8 @@ $x'A'PB(Q + B'PB)^{-1}B'PAx$。
 
 $$
 \begin{aligned}
- v(x) &= - x'A'PAx - 2u'B'PAx - u'(Q + B'PB) u\\
- &= - x'A'PAx + x'A'PB(Q + B'PB)^{-1}B'PAx \\
-
-$$
-\begin{aligned}
+v(x) &= - x'A'PAx - 2u'B'PAx - u'(Q + B'PB) u\\
+&= - x'A'PAx + x'A'PB(Q + B'PB)^{-1}B'PAx \\
 &= -x'[A'PA - A'PB(Q + B'PB)^{-1}B'PA] x
 \end{aligned}
 $$
